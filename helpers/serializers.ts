@@ -1,3 +1,8 @@
+const userSerializer = {
+  fields: {
+    omit: ['updatedAt'],
+  },
+}
 const blogSerializer = {
   fields: {
     omit: ['userId', 'updatedAt'],
@@ -12,4 +17,4 @@ const blogSerializer = {
   },
 }
 
-export { blogSerializer }
+export { userSerializer, blogSerializer }

@@ -1,11 +1,15 @@
 import User from '#models/user'
 import { HttpContext } from '@adonisjs/core/http'
 import { createUserValidator } from '#validators/user'
+import { userSerializer } from '../../helpers/serializers.js'
 
 export default class AuthController {
   async register({ request }: HttpContext) {
     const validated = await request.validateUsing(createUserValidator)
-    return await User.create(validated)
+    const user = await User.create(validated)
+    await user.refresh()
+
+    return user
   }
 
   async login({ request }: HttpContext) {
@@ -20,6 +24,6 @@ export default class AuthController {
   }
 
   async user({ auth }: HttpContext) {
-    return auth.getUserOrFail()
+    return auth.getUserOrFail().serialize(userSerializer)
   }
 }
